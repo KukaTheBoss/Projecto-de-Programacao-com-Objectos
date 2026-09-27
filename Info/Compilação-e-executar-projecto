@@ -1,0 +1,20 @@
+Compilação do Projecto
+
+O projecto pode ser compilado de duas formas. Assumindo que se está no directório que inclui o directório bci (que é o directório raiz que contém o código da aplicação a desenvolver), a compilação pode ser feita das seguintes formas:
+
+    javac -cp po-uilib.jar:. `find bci -name "*.java"`
+    find bci -name "*.java" -print | xargs javac -cp po-uilib.jar:.
+
+onde po-uilib.jar é o ficheiro jar com o código da framework de interação com o utilizador e está-se a assumir que também estão no mesmo directório que inclui o directório raiz do projecto. Casos os ficheiros tenham outro nome, ou estejam noutro directório então é necessário alterar o comando por forma a ter em conta as alterações.
+Execução do Projecto 
+
+Assumindo que se está ainda no mesmo directório que inclui o diretório raiz do projecto, para executar o projecto é necessário dar o seguinte comando:
+
+java -cp po-uilib.jar:. bci.app.App
+
+Se se quiser começar a aplicação indicando um ficheiro com o estado inicial da aplicação (por exemplo, ficheiro.im), então é necessário dar o seguinte comando:
+
+java -Dimport=ficheiro.im -cp po-uilib.jar:. bci.app.App
+
+
+Nota: A opção -Dchave=valor do comando java permite a definição de propriedades no momento de execução de um programa Java. Em Java, uma propriedade é definida por um par {chave, valor}. Em tempo de execução, é possível saber qual é o valor de uma determinada propriedade através da invocação do método estático getProperty(String key) da classe System. O argumento deste método representa a chave (ou, mais simplesmente, o nome) de uma propriedade. O método devolve o valor associado à propriedade indicada e caso não haja nenhuma propriedade definida com a chave indicada, então o método retornará null.

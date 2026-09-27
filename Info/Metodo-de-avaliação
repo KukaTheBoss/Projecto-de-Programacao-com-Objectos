@@ -1,0 +1,20 @@
+O método de avaliação desta disciplina tem duas componente de avaliação: fichas de laboratório, realizadas durante as aulas de laboratório, e o projecto, realizado ao longo do período.
+
+As fichas de laboratório são realizadas individualmente e existem 9 fichas. A nota desta componente corresponde à média das oito melhores fichas. Cada ficha incide sobre a matéria lecionada nas aulas teóricas e exercitada nas aulas de laboratório anteriores.
+
+O projecto é realizado em grupo (composto por dois alunos). A avaliação relativa à componente do Projecto processa-se em quatro partes:
+
+    Projecto: 1ª parte - entrega do UML
+    Projecto: 2ª parte - entrega intermédia
+    Projecto: 3ª parte - entrega final
+    Teste Prático
+
+O Projecto (trabalho conducente às entregas UML, intermédia e final) é realizado por grupos de exactamente 2 (dois) elementos, durante o período estabelecido. A inscrição do grupo é feita no agrupamento Laboratórios.
+
+A nota do teste prático condiciona a distância ao mínimo entre as notas do teste prático e a do projecto (NEntrega): desde um mínimo de 12.5% de acréscimo à menor das duas (abaixo de 7.5 valores no TP), até um máximo de 25% (para 20 valores no TP). O acréscimo é linear entre 7.5 e 20.
+
+Ou seja:
+
+NEntrega = UML + EI + EF
+
+Nota de Projecto = min( NEntrega , TP) + | TP - NEntrega | * max(12.5, TP+5) / 100

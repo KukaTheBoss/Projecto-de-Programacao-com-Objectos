@@ -1,0 +1,62 @@
+ Compromisso de Honra
+
+A entrega de qualquer trabalho pressupõe o compromisso de honra de que o trabalho correspondente foi realizado pelos alunos referenciados no grupo. A quebra deste compromisso, i.e., a tentativa de um grupo se apropriar de trabalho realizado por colegas, tem como consequência a reprovação de todos os alunos envolvidos (incluindo os que possibilitaram a ocorrência) neste ano lectivo, sem prejuízo de acções disciplinares previstas pelo IST.
+
+Ver também:
+
+    Conselho Pedagógico » Regulamentos
+
+Datas Importantes
+
+As datas e trabalho a realizar relativos ao projecto são os seguintes:
+
+    Modelação do domínio - 16/10/2026 (até às 23:59)
+    Entrega intermédia - 20/11/2026 (até às 23:59)
+    Entrega final - 18/12/2026 (até às 23:59)
+    Teste prático - 04/01/2026
+
+Enunciado
+
+Enunciado:  enunciado.pdf
+
+Esclarecimentos:
+
+
+Material de Apoio
+
+Framework de interacção com o utilizador
+
+    compilado para a versão 21 ou superior do Java: a disponibilizar
+
+Caso utilize a versão da po-uilib compilada para a versão 17 do Java, será necessário alterar o nome do arquivo jar de po-uilib-v17.jar para po-uilib.jar para garantir que os scripts que executam os testes funcionem.
+
+Material de suporte (arquivo com o esqueleto das classes, comandos e menus utilizados no projecto, algumas classes completas que definem as mensagens e constantes a utilizar na interacção com o utilizador, as excepções a criar na camada de serviços, algumas das excepções a utilizar na camada do domínio, a classe que define o ponto de entrada da aplicação, erp.app.App, e algumas classes parcialmente concretizadas da camada de domínio, incluindo a classe erp.core.ErpManager que representa a interface da camada de domínio:
+
+    Arquivo com as várias classes do esqueleto da aplicação: skeleton-erp.jar (ver secção Jar para saber como aceder ao conteúdo de um ficheiro .jar). Mesmo conteúdo mas utilizando o formato zip: skeleton-erp.zip
+    Os comandos que criam menus estão completos. Para os restantes comandos, é necessário concretizar a funcionalidade associada a cada um, o que inclui especificar os atributos necessários para a interacção com o utilizador e definir o corpo do método execute(). Este método deve concretizar a funcionalidade do comando;
+    A classe responsável por iniciar a aplicação erp.app.App está completa;
+    As várias classes que definem exceções a utilizar na camada de interação com o utilizador estão completas. São também fornecidas algumas exceções para a camada de lógica de negócio. Neste caso podem ser criadas novas exceções para representar erros que aconteçam nesta camada;
+    As três classes do domínio fornecidas apenas contêm o esqueleto de alguns métodos;
+
+ Como compilar e executar o projecto.
+
+Esqueleto da classe que processa o ficheiro de import: Parser.java
+
+Diagrama de classes UML parcial do projecto (proposto pelo corpo docente): A disponibilizar
+Submissão e Avaliação do Projecto
+O trabalho a realizar em cada entrega está descrito nas respectivas subseções. O cálculo da nota da componente de projecto está descrito na secção Método de avaliação.
+
+As três entregas do projecto são entregues electronicamente através do Fénix, utilizando as avaliações Entrega UML, Entrega Intermédia ou Entrega Final. Na primeira deve ser submetido um ficheiro com o diagrama de classes do domínio da aplicação . As duas restantes entregas apenas devem conter os ficheiros Java desenvolvidos para o projecto, guardados na estrutura de directórios correcta. Deve submeter um ficheiro jar com todo o código-fonte desenvolvido.
+
+Os projectos são avaliados de forma manual e automática. A avaliação automática corresponde a executar o projecto submetido (após compilação) e realizar um conjunto de testes que irão avaliar se o código submetido satisfaz os requisitos pedidos de forma correcta. A avaliação manual verifica a qualidade do código submetido, verificando se o paradigma de programação com objectos foi bem aplicado durante o desenvolvimento do projeto. Na avaliação manual podem-se aplicar as seguintes penalizações.
+
+A avaliação automática do projecto está descrita na secção Avaliação Automática
+
+Atenção: O ficheiro jar a submeter deve ser criado a partir da linha de comandos e não deve criá-lo via menu do Linux, dado que esta opção não cria o ficheiro jar de forma correcta, pelo que a componente de avaliação automática do projecto vai falhar (o código não compila e portanto, nenhum teste é executado) e o projecto terá 0 valores nesta componente da avaliação. Estando no directório que contém o directório raiz do projecto (bci), deve-se dar o seguinte comando
+
+    jar cvf proj.jar bci
+
+O arquivo a criar pode ter qualquer nome, não necessita de se chamar proj.jar. Tem é que ser um ficheiro jar e ter a extensão .jar.
+Teste Prático
+
+A secção Teste Prático (A disponibilizar) contém toda a informação sobre o teste prático.

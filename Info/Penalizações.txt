@@ -1,0 +1,8 @@
+Alertam-se os alunos para as possíveis penalizações genéricas:
+
+    A entrega de código não compilável, ou a não inclusão de qualquer dos ficheiros requeridos, ou a utilização de nomes diferentes para qualquer ficheiro conduz a uma classificação de zero valores, na avaliação da funcionalidade desse módulo. Não serão aceites quaisquer desculpas;
+    A entrega de ficheiros adicionais não solicitados (e.g., descrevendo o código, diagramas de classes, etc.), conduz a uma classificação de zero valores (se não for dito nada a esse respeito, toda a documentação deve fazer parte dos comentários Javadoc ao código);
+    A entrega de código que não respeite as convenções de codificação da disciplina também será penalizado;
+    A entrega fora do prazo corresponde à não avaliação do exercício de programação, i.e., uma penalização de 100%. A indisponibilidade temporária do sistema de entregas, desde que inferior a 24 horas, não justifica atrasos na entrega de um trabalho. O relógio oficial é o do servidor da página de entregas. Sugere-se que os alunos verifiquem, com antecedência, se cumprem todos os requisitos exigidos pelo processo de submissão.
+
+Para a 2ª e 3ª entregas do projecto, existem um conjunto de penalizações específicas para cada entrega e que são apresentadas na secção correspondente de cada entrega.

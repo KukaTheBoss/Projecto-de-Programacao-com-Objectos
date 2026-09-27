@@ -1,0 +1,64 @@
+Avaliação Automática
+
+Tanto a entrega intermédia como a entrega final do projecto são avaliadas de forma manual e automática. A avaliação automática é realizada executando um conjunto de testes sobre a última versão entregue do projecto.
+
+Para cada entrega do projecto, é disponibilizado um conjunto de testes parcial que não exercita todas as funcionalidades requeridas. É da responsabilidade de cada grupo assegurar-se de que o seu projecto não tenha erros e cumpra os requisitos enunciados para cada entrega. O conjunto de testes completo relativo a cada entrega só será disponibilizado após o prazo da entrega em causa. O conjunto de testes utilizado para realizar a avaliação automática de cada entrega é o conjunto de testes completo. 
+
+
+Os alunos podem submeter várias versões do projecto até ao prazo de entrega. O sistema de avaliação avalia sempre a última submissão de cada grupo. Até ao prazo de submissão do projecto, a avaliação das submissões faz-se normalmente duas vezes por dia, uma de manhã (antes das 13:00) e outra por volta da meia-noite. Só é executado o conjunto de testes parciais disponibilizado. O conjunto total de testes só será executado após o prazo de entrega.  Este processo apenas começará no fim da 8ª semana de aulas, dia 6 de outubro. O resultado de cada avaliação  será disponibilizado nas seguintes páginas:
+
+    Resultados da submissão da entrega intermédia: http://groups.ist.utl.pt/po-tagus/entregaIntermedia/.
+    Resultados da avaliação da entrega intermédia: http://groups.ist.utl.pt/po-tagus/avaliacaoEI.
+    Resultados da submissão da entrega final: http://groups.ist.utl.pt/po-tagus/entregaFinal.
+    Resultados da avaliação da entrega final: http://groups.ist.utl.pt/po-tagus/avaliacaoEF
+    Resultados da reavaliação da entrega intermédia: http://groups.ist.utl.pt/po-tagus/reavaliacaoEI.
+
+O resultado da avaliação de cada grupo é constituído por dois ficheiros: ###.res e ###.log (onde ### é o número do grupo). O primeiro contém uma análise da estrutura do projecto e dá também uma visão global do sucesso na passagem dos testes (incluindo valores numéricos). O segundo apresenta pormenores sobre a execução de cada passo dos testes. 
+Execução dos Testes
+
+
+Cada teste é constituído por dois ou três ficheiros: um ficheiro que define a entrada a submeter ao projecto (extensão .in) , um ficheiro (com extensão .out) que define o resultado esperado da execução do projecto e um ficheiro opcional, com extensão .import, que, a existir, define o ficheiro import a indicar na execução do projecto. A execução de um teste constituído pelos ficheiros test.in, test.out e test.import, deve ser realizado da seguinte forma. Primeiro, executa-se o projecto tendo em conta os valores de entradas definidos pelo teste, utilizando o seguinte comando (assume-se que o comando é executado no mesmo directório que contém o directório raiz do projecto (bci)):
+
+        java -cp po-uilib.jar:. -Dimport=test.import -Din=test.in -Dout=test.outhyp bci.app.App
+
+Caso o teste em causa não tenha o ficheiro import, então o comando para executar o teste deve ser o seguinte:
+
+        java -cp po-uilib.jar:. -Din=test.in -Dout=test.outhyp bci.app.App
+
+
+De seguida, verifica-se se a execução do projecto nas condições indicadas pelos ficheiros de entrada teve o resultado esperado. Este requisito é verificado comparando o ficheiro de saída produzido pela execução do teste com o esperado (e indicado pelo ficheiro com a extensão .out). Em Linux, para comparar os ficheiros utiliza-se o programa diff:
+
+        diff -cBw test.out test.outhyp
+
+
+Em sistemas UNIX (Linux e Mac OS X), pode utilizar o seguinte script para executar de forma automática os testes disponibilizados: runtests.sh
+
+Para correr os testes bastará executar o script runtests.sh. A execução do script gerará para cada teste falhado dois ficheiros: um que contém o resultado da execução do vosso projecto (e que tem extensão .outhyp) e outro que contém as diferenças entre o resultado esperado e o dado pelo vosso projecto (e que tem extensão .diff). Estes ficheiros estão dentro do directório tests. Este script (e o directório tests que contém os ficheiros de teste) devem estar no mesmo directório que contém o código da vossa aplicação (directório pai de edt). O script supõe ainda que este diretório contém o ficheiro po-uilib.jar (a framework de interação com o utilizador).
+
+Para facilitar a perceção do que está errado quando um teste falha, existe uma 2ª versão dos testes, em que cada ficheiro .out, além de conter o que é escrito pelo programa, também contém o que o programa lê. Desta forma, será mais fácil perceber a interação em cada teste e, assim, facilitar a descoberta da causa do mau funcionamento. Esta 2ª versão dos testes está presente no diretório testsBoth e é necessário executar os testes com um novo script: runtests_both.sh
+Estes scripts estão preparados para correr num sistema Linux ou Mac OS X, ou então num terminal Windows compatível com Unix. Para poder tornar o script executável é preciso dar o seguinte comando no terminal de comandos:
+
+    chmod 755 nomeDoScript
+
+Testes da Entrega Intermédia
+
+Conjunto parcial de testes utilizados na avaliação diária da entrega intermédia: 
+
+    A disponibilizar (versão simples, usar script runtests.sh)
+    A disponibilizar (versão 2 dos testes, usar script runtests_both.sh)
+
+Conjunto total de testes utilizados na avaliação final da entrega intermédia:  A disponibilizar
+
+Descrição dos casos de teste da entrega intermédia: Testes
+Testes da Entrega Final
+
+Conjunto parcial de testes utilizados na avaliação diária da entrega final: 
+
+    A disponibilizar (versão simples, usar script runtests.sh)
+    A disponibilizar (versão 2 dos testes, usar script runtests_both.sh)
+
+Conjunto total de testes utilizados na avaliação final da entrega final: 
+
+    A disponibilizar (versão simples, usar script runtests.sh)
+
+Descrição dos testes utilizados na avaliação da entrega final: Testes

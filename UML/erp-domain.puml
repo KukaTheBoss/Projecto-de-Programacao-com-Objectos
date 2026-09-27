@@ -1,0 +1,196 @@
+@startuml erp-domain
+
+hide circle
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor White
+  ArrowColor Black
+  BorderColor Black
+}
+
+' ===================== Núcleo =====================
+
+class Erp {
+  - nextProductId: int
+  - nextCompanyId: int
+  - nextPurchaseId: int
+  - currentDate: int
+  - products: Map<Integer, Product>
+  - companies: Map<Integer, Company>
+  - clients: Map<String, Client>
+  - purchases: Map<Integer, Purchase>
+  --
+  + importFile(filename: String)
+  + advanceDate(days: int)
+}
+
+class ErpManager {
+  - erp: Erp
+  --
+  + save()
+  + saveAs(filename: String)
+  + load(filename: String)
+  + importFile(filename: String)
+}
+
+ErpManager "1" *-- "1" Erp
+
+' ===================== Produto =====================
+
+abstract class Product {
+  - id: int
+  - name: String
+  - basePrice: int
+  - category: String
+  - baseDeliveryDelay: int
+  --
+  + {abstract} getRecommendedPrice(totalUnits: int): double
+}
+
+class NationalProduct extends Product {
+  + getRecommendedPrice(totalUnits: int): double
+}
+
+class ImportedProduct extends Product {
+  - originCountry: String
+  - customsTax: double
+  --
+  + getRecommendedPrice(totalUnits: int): double
+}
+
+' ===================== Empresa / Supply =====================
+
+class Company {
+  - id: int
+  - name: String
+}
+
+class Supply {
+  - units: int
+  - multiplier: double
+  --
+  + getSalePrice(): double
+  + changeInventory(deltaUnits: int, newMultiplier: double)
+}
+
+Company "1" *-- "0..*" Supply
+Supply "0..*" --> "1" Product
+
+' ===================== Cliente / Notificações =====================
+
+class Client {
+  - email: String
+  - name: String
+  - totalSpent: double
+}
+
+interface NotificationMethod {
+  + notify(subject: String, description: String)
+}
+
+class DefaultNotificationMethod implements NotificationMethod {
+  - notifications: List<Notification>
+  --
+  + notify(subject: String, description: String)
+  + consumeNotifications(): List<Notification>
+}
+
+class Notification {
+  - subject: String
+  - description: String
+}
+
+Client "1" o-- "1" NotificationMethod
+DefaultNotificationMethod "1" *-- "0..*" Notification
+
+' ===================== Cabaz =====================
+
+class Basket {
+  --
+  + addProduct(product: Product, quantity: int)
+  + checkout(): Purchase
+}
+
+class BasketLine {
+  - quantity: int
+}
+
+Basket "1" *-- "0..*" BasketLine
+BasketLine "0..*" --> "1" Product
+Basket "0..*" --> "1" Client
+Basket "0..*" --> "1" Company
+Basket "1" --> "1" SplitStrategy
+Basket "1" --> "0..1" TransportModality
+Basket "1" o-- "0..*" AdditionalService
+
+' ===================== Estratégia de divisão =====================
+
+interface SplitStrategy {
+  + split(purchase: Purchase): List<Order>
+}
+
+class SingleSplitStrategy implements SplitStrategy {
+  + split(purchase: Purchase): List<Order>
+}
+
+class DeadlineSplitStrategy implements SplitStrategy {
+  + split(purchase: Purchase): List<Order>
+}
+
+' ===================== Modalidade de transporte =====================
+
+abstract class TransportModality {
+  - id: String
+  - rate: int
+  - deliveryTime: int
+}
+
+class NormalModality extends TransportModality
+class ExpressModality extends TransportModality
+
+' ===================== Serviço adicional =====================
+
+abstract class AdditionalService {
+  - id: String
+  - cost: int
+  - extraTime: int
+}
+
+class Wrapping extends AdditionalService
+class GiftCard extends AdditionalService
+
+' ===================== Compra / Encomenda =====================
+
+class Purchase {
+  - id: int
+  - date: int
+}
+
+class PurchaseLine {
+  - quantity: int
+  - unitPrice: double
+}
+
+class Order {
+  - id: int
+  - expectedDeliveryDate: int
+  - delivered: boolean
+}
+
+Purchase "0..*" --> "1" Client
+Purchase "0..*" --> "1" Company
+Purchase "1" *-- "1..*" PurchaseLine
+PurchaseLine "0..*" --> "1" Product
+Purchase "1" *-- "1..*" Order
+Order "1" --> "1" TransportModality
+Order "1" o-- "0..*" AdditionalService
+Order "1" o-- "1..*" PurchaseLine
+
+' ===================== Ligações ao núcleo =====================
+
+Erp "1" *-- "0..*" Product
+Erp "1" *-- "0..*" Company
+Erp "1" *-- "0..*" Client
+Erp "1" *-- "0..*" Purchase
+
+@enduml
