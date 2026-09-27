@@ -11,186 +11,186 @@ skinparam class {
 ' ===================== Núcleo =====================
 
 class Erp {
-  - nextProductId: int
-  - nextCompanyId: int
-  - nextPurchaseId: int
-  - currentDate: int
-  - products: Map<Integer, Product>
-  - companies: Map<Integer, Company>
-  - clients: Map<String, Client>
-  - purchases: Map<Integer, Purchase>
+  - proximoIdProduto: int
+  - proximoIdEmpresa: int
+  - proximoIdCompra: int
+  - dataAtual: int
+  - produtos: Map<Integer, Produto>
+  - empresas: Map<Integer, Empresa>
+  - clientes: Map<String, Cliente>
+  - compras: Map<Integer, Compra>
   --
-  + importFile(filename: String)
-  + advanceDate(days: int)
+  + importarFicheiro(nomeFicheiro: String)
+  + avancarData(dias: int)
 }
 
 class ErpManager {
   - erp: Erp
   --
-  + save()
-  + saveAs(filename: String)
-  + load(filename: String)
-  + importFile(filename: String)
+  + guardar()
+  + guardarComo(nomeFicheiro: String)
+  + carregar(nomeFicheiro: String)
+  + importarFicheiro(nomeFicheiro: String)
 }
 
 ErpManager "1" *-- "1" Erp
 
 ' ===================== Produto =====================
 
-abstract class Product {
+abstract class Produto {
   - id: int
-  - name: String
-  - basePrice: int
-  - category: String
-  - baseDeliveryDelay: int
+  - nome: String
+  - precoBase: int
+  - categoria: String
+  - prazoEntregaBase: int
   --
-  + {abstract} getRecommendedPrice(totalUnits: int): double
+  + {abstract} getPrecoRecomendado(totalUnidades: int): double
 }
 
-class NationalProduct extends Product {
-  + getRecommendedPrice(totalUnits: int): double
+class ProdutoNacional extends Produto {
+  + getPrecoRecomendado(totalUnidades: int): double
 }
 
-class ImportedProduct extends Product {
-  - originCountry: String
-  - customsTax: double
+class ProdutoImportado extends Produto {
+  - paisOrigem: String
+  - taxaAlfandegaria: double
   --
-  + getRecommendedPrice(totalUnits: int): double
+  + getPrecoRecomendado(totalUnidades: int): double
 }
 
-' ===================== Empresa / Supply =====================
+' ===================== Empresa / Disponibilização =====================
 
-class Company {
+class Empresa {
   - id: int
-  - name: String
+  - nome: String
 }
 
-class Supply {
-  - units: int
-  - multiplier: double
+class Disponibilizacao {
+  - unidades: int
+  - factorMultiplicativo: double
   --
-  + getSalePrice(): double
-  + changeInventory(deltaUnits: int, newMultiplier: double)
+  + getPrecoVenda(): double
+  + alterarInventario(deltaUnidades: int, novoFactor: double)
 }
 
-Company "1" *-- "0..*" Supply
-Supply "0..*" --> "1" Product
+Empresa "1" *-- "0..*" Disponibilizacao
+Disponibilizacao "0..*" --> "1" Produto
 
 ' ===================== Cliente / Notificações =====================
 
-class Client {
+class Cliente {
   - email: String
-  - name: String
-  - totalSpent: double
+  - nome: String
+  - gastoTotal: double
 }
 
-interface NotificationMethod {
-  + notify(subject: String, description: String)
+interface MecanismoNotificacao {
+  + notificar(assunto: String, descricao: String)
 }
 
-class DefaultNotificationMethod implements NotificationMethod {
-  - notifications: List<Notification>
+class MecanismoNotificacaoOmissao implements MecanismoNotificacao {
+  - notificacoes: List<Notificacao>
   --
-  + notify(subject: String, description: String)
-  + consumeNotifications(): List<Notification>
+  + notificar(assunto: String, descricao: String)
+  + consumirNotificacoes(): List<Notificacao>
 }
 
-class Notification {
-  - subject: String
-  - description: String
+class Notificacao {
+  - assunto: String
+  - descricao: String
 }
 
-Client "1" o-- "1" NotificationMethod
-DefaultNotificationMethod "1" *-- "0..*" Notification
+Cliente "1" o-- "1" MecanismoNotificacao
+MecanismoNotificacaoOmissao "1" *-- "0..*" Notificacao
 
 ' ===================== Cabaz =====================
 
-class Basket {
+class Cabaz {
   --
-  + addProduct(product: Product, quantity: int)
-  + checkout(): Purchase
+  + alterarProduto(produto: Produto, quantidade: int)
+  + finalizar(): Compra
 }
 
-class BasketLine {
-  - quantity: int
+class LinhaCabaz {
+  - quantidade: int
 }
 
-Basket "1" *-- "0..*" BasketLine
-BasketLine "0..*" --> "1" Product
-Basket "0..*" --> "1" Client
-Basket "0..*" --> "1" Company
-Basket "1" --> "1" SplitStrategy
-Basket "1" --> "0..1" TransportModality
-Basket "1" o-- "0..*" AdditionalService
+Cabaz "1" *-- "0..*" LinhaCabaz
+LinhaCabaz "0..*" --> "1" Produto
+Cabaz "0..*" --> "1" Cliente
+Cabaz "0..*" --> "1" Empresa
+Cabaz "1" --> "1" EstrategiaDivisao
+Cabaz "1" --> "0..1" ModalidadeTransporte
+Cabaz "1" o-- "0..*" ServicoAdicional
 
 ' ===================== Estratégia de divisão =====================
 
-interface SplitStrategy {
-  + split(purchase: Purchase): List<Order>
+interface EstrategiaDivisao {
+  + dividir(compra: Compra): List<Encomenda>
 }
 
-class SingleSplitStrategy implements SplitStrategy {
-  + split(purchase: Purchase): List<Order>
+class EstrategiaUnica implements EstrategiaDivisao {
+  + dividir(compra: Compra): List<Encomenda>
 }
 
-class DeadlineSplitStrategy implements SplitStrategy {
-  + split(purchase: Purchase): List<Order>
+class EstrategiaPrazo implements EstrategiaDivisao {
+  + dividir(compra: Compra): List<Encomenda>
 }
 
 ' ===================== Modalidade de transporte =====================
 
-abstract class TransportModality {
+abstract class ModalidadeTransporte {
   - id: String
-  - rate: int
-  - deliveryTime: int
+  - tarifa: int
+  - tempoEntrega: int
 }
 
-class NormalModality extends TransportModality
-class ExpressModality extends TransportModality
+class ModalidadeNormal extends ModalidadeTransporte
+class ModalidadeExpresso extends ModalidadeTransporte
 
 ' ===================== Serviço adicional =====================
 
-abstract class AdditionalService {
+abstract class ServicoAdicional {
   - id: String
-  - cost: int
-  - extraTime: int
+  - custo: int
+  - tempoAdicional: int
 }
 
-class Wrapping extends AdditionalService
-class GiftCard extends AdditionalService
+class Embrulho extends ServicoAdicional
+class CartaoOferta extends ServicoAdicional
 
 ' ===================== Compra / Encomenda =====================
 
-class Purchase {
+class Compra {
   - id: int
-  - date: int
+  - data: int
 }
 
-class PurchaseLine {
-  - quantity: int
-  - unitPrice: double
+class LinhaCompra {
+  - quantidade: int
+  - precoUnitario: double
 }
 
-class Order {
+class Encomenda {
   - id: int
-  - expectedDeliveryDate: int
-  - delivered: boolean
+  - dataPrevistaEntrega: int
+  - entregue: boolean
 }
 
-Purchase "0..*" --> "1" Client
-Purchase "0..*" --> "1" Company
-Purchase "1" *-- "1..*" PurchaseLine
-PurchaseLine "0..*" --> "1" Product
-Purchase "1" *-- "1..*" Order
-Order "1" --> "1" TransportModality
-Order "1" o-- "0..*" AdditionalService
-Order "1" o-- "1..*" PurchaseLine
+Compra "0..*" --> "1" Cliente
+Compra "0..*" --> "1" Empresa
+Compra "1" *-- "1..*" LinhaCompra
+LinhaCompra "0..*" --> "1" Produto
+Compra "1" *-- "1..*" Encomenda
+Encomenda "1" --> "1" ModalidadeTransporte
+Encomenda "1" o-- "0..*" ServicoAdicional
+Encomenda "1" o-- "1..*" LinhaCompra
 
 ' ===================== Ligações ao núcleo =====================
 
-Erp "1" *-- "0..*" Product
-Erp "1" *-- "0..*" Company
-Erp "1" *-- "0..*" Client
-Erp "1" *-- "0..*" Purchase
+Erp "1" *-- "0..*" Produto
+Erp "1" *-- "0..*" Empresa
+Erp "1" *-- "0..*" Cliente
+Erp "1" *-- "0..*" Compra
 
 @enduml
